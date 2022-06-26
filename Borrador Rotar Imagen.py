@@ -2,7 +2,7 @@ import numpy as np
 import imageio.v2 as imageio
 from matplotlib import pyplot as plt
 
-archivo = 'C:/Users/carlo/OneDrive/Escritorio/noaa.jpg'
+archivo = 'img/1.jpg'
 imgIn = imageio.imread(archivo)
 #plt.figure(figsize=(4,4))
 #plt.imshow(imgIn)
