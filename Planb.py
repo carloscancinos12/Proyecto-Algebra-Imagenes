@@ -12,6 +12,16 @@ archivo = '1.jpg'
 imgIn = imageio.imread(archivo)
 recorte = imgIn[110:440, 215:525]
 
+Aument=StringVar()
+Aument_entry = Entry(root,textvariable=Aument)
+Aument_entry.config(width=10)
+Aument_entry.place(x=220,y=80)
+
+Dismn=StringVar()
+Dismn_entry = Entry(root,textvariable=Dismn)
+Dismn_entry.config(width=10)
+Dismn_entry.place(x=30,y=80)
+
 def reflejarY(Matriz):
     f, c, p = Matriz.shape
     reflejada = np.zeros((f, c, p), int)
@@ -52,8 +62,6 @@ def rotarT(Matriz):
     return rotada
 
 
-
-
 def ComandoHorario():
     plt.figure(figsize=(4,4))
     plt.imshow(rotarH(recorte))
@@ -75,15 +83,6 @@ def ComandoOrig():
     plt.imshow(imgIn)
     plt.show()
 
-Aument=int()
-Aument_entry = Entry(root,textvariable=Aument)
-Aument_entry.config(width=10)
-Aument_entry.place(x=220,y=80)
-
-Dismn=int()
-Dismn_entry = Entry(root,textvariable=Dismn)
-Dismn_entry.config(width=10)
-Dismn_entry.place(x=30,y=80)
 
 boton1 = Button(root, text="Rotar Antihorario", command=ComandoAnHorario)
 boton1.pack()
