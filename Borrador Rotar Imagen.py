@@ -1,18 +1,8 @@
 import numpy as np
 import imageio.v2 as imageio
 from matplotlib import pyplot as plt
-
-archivo = 'img/1.jpg'
-imgIn = imageio.imread(archivo)
-#plt.figure(figsize=(4,4))
-#plt.imshow(imgIn)
-#plt.show()
-
-recorte = imgIn[110:440, 215:525]
-plt.figure(figsize=(4,4))
-plt.imshow(recorte)
-plt.show()
-
+from matplotlib.image import NonUniformImage
+from matplotlib import cm
 def reflejarY(Matriz):
     f, c, p = Matriz.shape
     reflejada = np.zeros((f, c, p), int)
@@ -52,15 +42,23 @@ def rotarT(Matriz):
     rotada = reflejarY(rotada)
     return rotada
 
-plt.figure(figsize=(4,4))
-plt.imshow(rotarAH(recorte))
-plt.show()
+archivo = 'img/1.jpg'
+imgIn = imageio.imread(archivo)
+
+recorte = imgIn[110:440, 215:525]
+#extent=(posx,dimx,posy,dimy)
+plt.figure(figsize=(10,10))
+axs=plt.subplots(nrows=2, ncols=2, constrained_layout=True)
+ax=axs[0, 0]
+
+ax.add_image(imgIn)
 
 plt.figure(figsize=(4,4))
 plt.imshow(rotarH(recorte))
 plt.show()
 
 plt.figure(figsize=(4,4))
+
 plt.imshow(rotarT(recorte))
 plt.show()
 
