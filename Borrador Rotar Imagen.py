@@ -1,6 +1,8 @@
+from tkinter import Button
 import numpy as np
 import imageio.v2 as imageio
 from matplotlib import pyplot as plt
+from matplotlib.widgets import Button
 
 archivo = 'C:/Users/carlo/OneDrive/Escritorio/noaa.jpg'
 imgIn = imageio.imread(archivo)
@@ -90,8 +92,20 @@ plt.imshow(rotarT(recorte))
 plt.show()
 
 plt.figure(figsize=(4,4))
-plt.imshow(aumentarDimensiones(recorte,5))
+pruebaMa = aumentarDimensiones(recorte,5)
+plt.imshow(pruebaMa)
+#plt.show()
+
+
+axB = plt.axes([0.1,0.1,0.1,0.3])
+btn1 = Button(ax=axB, label='', color = 'teal', hovercolor = 'tomato')
+
+#Esto todavia no da, es lo del evento
+def rotarHBoton(event):
+    pruebaMa = rotarH(pruebaMa)
+    plt.imshow(pruebaMa)
+
+btn1.on_clicked(rotarHBoton)
+
 plt.show()
-
-
 
