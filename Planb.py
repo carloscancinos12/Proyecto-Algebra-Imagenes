@@ -63,6 +63,12 @@ def ComandoAnHorario():
     plt.figure(figsize=(4,4))
     plt.imshow(rotarAH(recorte))
     plt.show()
+    
+def ComandoAumentar():
+    None
+    
+def ComandoReducir():
+    None
 
 
 boton1 = Button(root, text="Rotar Antihorario", command=ComandoAnHorario)
@@ -72,5 +78,13 @@ boton1.place(x=30,y=20)
 boton2 = Button(root, text="Rotar Horario", command=ComandoHorario)
 boton2.pack()
 boton2.place(x=220,y=20)
+
+boton3 = Button(root, text="Rotar Horario", command=ComandoAumentar)
+boton3.pack()
+boton3.place(x=30,y=100)
+
+boton4 = Button(root, text="Rotar Horario", command=ComandoReducir)
+boton4.pack()
+boton4.place(x=220,y=100)
 
 root,mainloop()
