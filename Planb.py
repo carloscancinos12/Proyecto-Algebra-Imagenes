@@ -71,7 +71,9 @@ def ComandoReducir():
     None
     
 def ComandoOrig():
-    None
+    plt.figure(figsize=(4,4))
+    plt.imshow(imgIn)
+    plt.show()
 
 Aument=int()
 Aument_entry = Entry(root,textvariable=Aument)
