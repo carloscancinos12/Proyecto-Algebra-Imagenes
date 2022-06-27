@@ -69,7 +69,19 @@ def ComandoAumentar():
     
 def ComandoReducir():
     None
+    
+def ComandoOrig():
+    None
 
+Aument=int()
+Aument_entry = Entry(root,textvariable=Aument)
+Aument_entry.config(width=10)
+Aument_entry.place(x=220,y=80)
+
+Dismn=int()
+Dismn_entry = Entry(root,textvariable=Dismn)
+Dismn_entry.config(width=10)
+Dismn_entry.place(x=30,y=80)
 
 boton1 = Button(root, text="Rotar Antihorario", command=ComandoAnHorario)
 boton1.pack()
@@ -86,5 +98,9 @@ boton3.place(x=30,y=100)
 boton4 = Button(root, text="Aumentar tamaño", command=ComandoReducir)
 boton4.pack()
 boton4.place(x=220,y=100)
+
+boton5 = Button(root, text="Original", command=ComandoOrig)
+boton5.pack()
+boton5.place(x=130,y=60)
 
 root,mainloop()
