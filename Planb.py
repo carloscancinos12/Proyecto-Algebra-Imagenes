@@ -79,11 +79,11 @@ boton2 = Button(root, text="Rotar Horario", command=ComandoHorario)
 boton2.pack()
 boton2.place(x=220,y=20)
 
-boton3 = Button(root, text="Rotar Horario", command=ComandoAumentar)
+boton3 = Button(root, text="Disminuir tamaño", command=ComandoAumentar)
 boton3.pack()
 boton3.place(x=30,y=100)
 
-boton4 = Button(root, text="Rotar Horario", command=ComandoReducir)
+boton4 = Button(root, text="Aumentar tamaño", command=ComandoReducir)
 boton4.pack()
 boton4.place(x=220,y=100)
 
