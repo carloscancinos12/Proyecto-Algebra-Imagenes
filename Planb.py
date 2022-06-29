@@ -23,6 +23,15 @@ Dismn_entry = tkinter.Entry(root,textvariable=Dismn)
 Dismn_entry.config(width=10)
 Dismn_entry.place(x=30,y=80)
 
+Posx=StringVar()
+Posx_entry = tkinter.Entry(root,textvariable=Posx)
+Posx_entry.config(width=10)
+Posx_entry.place(x=150,y=130)
+Posy=StringVar()
+Posy_entry = tkinter.Entry(root,textvariable=Posy)
+Posy_entry.config(width=10)
+Posy_entry.place(x=150,y=150)
+
 def reflejarY(Matriz):
     f, c, p = Matriz.shape
     reflejada = np.zeros((f, c, p), int)
@@ -111,7 +120,13 @@ def disminuirDimensiones(Matriz, aumentoD):
     aumentada = disminuirFilas(Matriz, aumentoD)
     aumentada = disminuirColumnas(aumentada, aumentoD)
     return aumentada
-
+def cambiarpos(Matriz, posx,posy):
+    f, c, p = Matriz.shape
+    aumentada = np.zeros((f+posy, c+posx, p), int)
+    for fila in range(0,f):
+        for columna in range(0,c):
+            aumentada[fila+posy,columna+posx,:]=Matriz[fila,columna,:]
+    return aumentada
 def ComandoHorario():
     plt.figure(figsize=(4,4))
     plt.imshow(rotarH(imgIn))
@@ -136,7 +151,10 @@ def ComandoOrig():
     plt.figure(figsize=(4,4))
     plt.imshow(imgIn)
     plt.show()
-
+def ComandoPosicion():
+    plt.figure(figsize=(4,4))
+    plt.imshow(cambiarpos(imgIn,int(Posx_entry.get()),int(Posy_entry.get())))
+    plt.show()
 
 boton1 = Button(root, text="Rotar Antihorario", command=ComandoAnHorario)
 boton1.pack()
@@ -157,5 +175,7 @@ boton4.place(x=220,y=100)
 boton5 = Button(root, text="Original", command=ComandoOrig)
 boton5.pack()
 boton5.place(x=130,y=60)
-
+boton6 = Button(root, text="desplazar", command=ComandoPosicion)
+boton6.pack()
+boton6.place(x=150,y=100)
 root,mainloop()
