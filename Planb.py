@@ -136,41 +136,43 @@ def rotarGrados(Matriz, grados):
         return rotada
 
     elif (grados == 180):
-        rotada = rotarH(Matriz)
+        rotada = rotarT(Matriz)
         return rotada
     
     elif (grados == 270):
-        rotada = rotarT(Matriz)
+        rotada = rotarH(Matriz)
         return rotada
 
     elif (grados > 270):
-        Matriz = rotarT(Matriz)
+        Matriz = rotarH(Matriz)
         grados = grados - 270
 
     elif (grados > 180):
-        Matriz = rotarH(Matriz)
+        Matriz = rotarT(Matriz)
         grados = grados - 180
 
     elif (grados > 90):
         Matriz = rotarAH(Matriz)
         grados = grados - 90
 
+    
+    if (grados > 45):
+        angulo = (90 - grados) * (np.pi / 180)
+        Matriz = rotarAH(Matriz)
+    else:
+        angulo = grados * (np.pi / 180)
     f, c, p = Matriz.shape
-    angulo = grados * (np.pi / 180)
-    rotada = np.zeros((int(f + c*np.tan(angulo)), int(c + f*np.tan(angulo)), p), int)
+    rotada = np.zeros((int(f + c*np.tan( angulo)), int(c + f*np.tan(angulo)), p), int)
     for capa in range(0,p):
         for fila in range(0,f):
             for columna in range(0,c):
-                nuevaFila = fila + (c-columna)*np.tan(angulo) - 7
-                nuevaColumna = columna + fila*np.tan(angulo) - 7
-                nuevaFila = int(nuevaFila)
-                nuevaColumna = int(nuevaColumna)
+                if (grados <= 45):
+                    nuevaFila = int(fila + (c-columna)*np.tan(angulo))
+                    nuevaColumna = int(columna + fila*np.tan(angulo))
+                else:
+                    nuevaFila = int(fila + columna*np.tan(angulo))
+                    nuevaColumna = int(columna + (f - fila)*np.tan(angulo))
                 rotada[nuevaFila, nuevaColumna, capa] = Matriz[fila, columna, capa]
-                for x in range(0,int(grados/15)):
-                    for y in range(0,int(grados/15)):
-                        rotada[(nuevaFila+x), nuevaColumna, capa] = Matriz[fila, columna, capa]
-                        rotada[nuevaFila, (nuevaColumna+y), capa] = Matriz[fila, columna, capa]
-                        rotada[(nuevaFila+x), (nuevaColumna+y), capa] = Matriz[fila, columna, capa]
     return rotada
 
 def ComandoHorario():
