@@ -54,7 +54,7 @@ def rotarT(Matriz):
     rotada = reflejarY(rotada)
     return rotada
 
-def pruebaFilas(Matriz, aumentoD):
+def aumentarFilas(Matriz, aumentoD):
     f, c, p = Matriz.shape
     duplicada = np.zeros(((aumentoD * f), c, p), int)
     for capa in range(0,p):
@@ -63,7 +63,7 @@ def pruebaFilas(Matriz, aumentoD):
                 duplicada[((fila*aumentoD) + aum),:,capa] = Matriz[fila,:,capa]
     return duplicada
 
-def pruebaColumnas(Matriz, aumentoD):
+def aumentarColumnas(Matriz, aumentoD):
     f, c, p = Matriz.shape
     duplicada = np.zeros((f, (c * aumentoD), p), int)
     for capa in range(0,p):
@@ -75,9 +75,78 @@ def pruebaColumnas(Matriz, aumentoD):
 def aumentarDimensiones(Matriz, aumentoD):
     f, c, p = Matriz.shape
     aumentada = np.zeros(((f + (f//aumentoD)), (c + (c//aumentoD)), p), int)
-    aumentada = pruebaFilas(Matriz, aumentoD)
-    aumentada = pruebaColumnas(aumentada, aumentoD)
+    aumentada = aumentarFilas(Matriz, aumentoD)
+    aumentada = aumentarColumnas(aumentada, aumentoD)
     return aumentada
+
+def disminuirFilas(Matriz, disminucionD):
+    f, c, p = Matriz.shape
+    duplicada = np.zeros((int(f / disminucionD), c, p), int)
+    for capa in range(0,p):
+        for fila in range(0,f):
+            if (fila%disminucionD) == 0:
+                duplicada[int(fila / disminucionD),:,capa] = Matriz[fila,:,capa]
+    return duplicada
+
+def disminuirColumnas(Matriz, disminucionD):
+    f, c, p = Matriz.shape
+    duplicada = np.zeros((f, int(c / disminucionD), p), int)
+    for capa in range(0,p):
+        for columna in range(0,c):
+            if (columna%disminucionD) == 0:
+                duplicada[:,int(columna / disminucionD),capa] = Matriz[:,columna,capa]
+    return duplicada
+
+def disminuirDimensiones(Matriz, aumentoD):
+    f, c, p = Matriz.shape
+    aumentada = np.zeros(((f + (f//aumentoD)), (c + (c//aumentoD)), p), int)
+    aumentada = disminuirFilas(Matriz, aumentoD)
+    aumentada = disminuirColumnas(aumentada, aumentoD)
+    return aumentada
+
+def rotarGrados(Matriz, grados):
+
+    if (grados == 90):
+        rotada = rotarAH(Matriz)
+        return rotada
+
+    elif (grados == 180):
+        rotada = rotarH(Matriz)
+        return rotada
+    
+    elif (grados == 270):
+        rotada = rotarT(Matriz)
+        return rotada
+
+    elif (grados > 270):
+        Matriz = rotarT(Matriz)
+        grados = grados - 270
+
+    elif (grados > 180):
+        Matriz = rotarH(Matriz)
+        grados = grados - 180
+
+    elif (grados > 90):
+        Matriz = rotarAH(Matriz)
+        grados = grados - 90
+
+    f, c, p = Matriz.shape
+    angulo = grados * (np.pi / 180)
+    rotada = np.zeros((int(f + c*np.tan(angulo)), int(c + f*np.tan(angulo)), p), int)
+    for capa in range(0,p):
+        for fila in range(0,f):
+            for columna in range(0,c):
+                nuevaFila = fila + (c-columna)*np.tan(angulo) - 7
+                nuevaColumna = columna + fila*np.tan(angulo) - 7
+                nuevaFila = int(nuevaFila)
+                nuevaColumna = int(nuevaColumna)
+                rotada[nuevaFila, nuevaColumna, capa] = Matriz[fila, columna, capa]
+                for x in range(0,int(grados/15)):
+                    for y in range(0,int(grados/15)):
+                        rotada[(nuevaFila+x), nuevaColumna, capa] = Matriz[fila, columna, capa]
+                        rotada[nuevaFila, (nuevaColumna+y), capa] = Matriz[fila, columna, capa]
+                        rotada[(nuevaFila+x), (nuevaColumna+y), capa] = Matriz[fila, columna, capa]
+    return rotada
 
 plt.figure(figsize=(4,4))
 plt.imshow(rotarAH(recorte))
@@ -92,20 +161,16 @@ plt.imshow(rotarT(recorte))
 plt.show()
 
 plt.figure(figsize=(4,4))
-pruebaMa = aumentarDimensiones(recorte,5)
-plt.imshow(pruebaMa)
-#plt.show()
-
-
-axB = plt.axes([0.1,0.1,0.1,0.3])
-btn1 = Button(ax=axB, label='', color = 'teal', hovercolor = 'tomato')
-
-#Esto todavia no da, es lo del evento
-def rotarHBoton(event):
-    pruebaMa = rotarH(pruebaMa)
-    plt.imshow(pruebaMa)
-
-btn1.on_clicked(rotarHBoton)
-
+plt.imshow(aumentarDimensiones(recorte,5))
 plt.show()
+
+plt.figure(figsize=(4,4))
+plt.imshow(disminuirDimensiones(recorte,2))
+plt.show()
+
+plt.figure(figsize=(4,4))
+plt.imshow(rotarGrados(recorte,72))
+plt.show()
+
+
 
