@@ -1,3 +1,4 @@
+from cProfile import label
 from tkinter import *
 from PIL import Image, ImageTk
 import numpy as np
@@ -7,31 +8,14 @@ import tkinter
 
 root = Tk()
 root.title("Imagenes Algebra")
-root.geometry("400x200")
+root.geometry("300x390")
+xbot = 20
 
 archivo = '1.jpg'
 imgIn = imageio.imread(archivo)
 recorte = imgIn[110:440, 215:525]
 
-Aument=StringVar()
-Aument_entry = tkinter.Entry(root,textvariable=Aument)
-Aument_entry.config(width=10)
-Aument_entry.place(x=220,y=80)
-
-Dismn=StringVar()
-Dismn_entry = tkinter.Entry(root,textvariable=Dismn)
-Dismn_entry.config(width=10)
-Dismn_entry.place(x=30,y=80)
-
-Posx=StringVar()
-Posx_entry = tkinter.Entry(root,textvariable=Posx)
-Posx_entry.config(width=10)
-Posx_entry.place(x=150,y=130)
-Posy=StringVar()
-Posy_entry = tkinter.Entry(root,textvariable=Posy)
-Posy_entry.config(width=10)
-Posy_entry.place(x=150,y=150)
-
+#Funciones básicas para acciones del proyecto
 def reflejarY(Matriz):
     f, c, p = Matriz.shape
     reflejada = np.zeros((f, c, p), int)
@@ -39,6 +23,7 @@ def reflejarY(Matriz):
         for fila in range(0,f):
             reflejada[fila,:,capa] = Matriz[fila,::-1,capa]
     return reflejada
+
 
 def rotarAH(Matriz):
     f, c, p = Matriz.shape
@@ -175,6 +160,71 @@ def rotarGrados(Matriz, grados):
                 rotada[nuevaFila, nuevaColumna, capa] = Matriz[fila, columna, capa]
     return rotada
 
+def Transponer(Matriz1, Matriz2,posx,posy):
+    f1, c1, p1 = Matriz1.shape
+    f2, c2, p2 = Matriz2.shape 
+    aumentada = np.zeros((f1+f2, c1+c2, p1), int)
+    fa ,ca ,pa = aumentada.shape
+
+    for fila in range(0,f1):
+        for columna in range(0,c1):
+            aumentada[fila,columna,:]=Matriz1[fila,columna,:]
+    for fila in range(0,f2):
+        for columna in range(0,c2):
+            aumentada[fila+posx,columna+posy,:]=Matriz2[fila,columna,:]    
+    return aumentada
+
+#Entrys para el programa
+Aument=StringVar()
+Aument_entry = tkinter.Entry(root,textvariable=Aument)
+Aument_entry.config(width=10)
+Aument_entry.place(x=xbot+200,y=180)
+
+Dismn=StringVar()
+Dismn_entry = tkinter.Entry(root,textvariable=Dismn)
+Dismn_entry.config(width=10)
+Dismn_entry.place(x=xbot+200,y=230)
+
+Posx=StringVar()
+Posx_entry = tkinter.Entry(root,textvariable=Posx)
+Posx_entry.config(width=10)
+Posx_entry.place(x=xbot+200,y=270)
+
+Posy=StringVar()
+Posy_entry = tkinter.Entry(root,textvariable=Posy)
+Posy_entry.config(width=10)
+Posy_entry.place(x=xbot+200,y=295)
+
+RotAnt=StringVar()
+Posy_entry = tkinter.Entry(root,textvariable=RotAnt)
+Posy_entry.config(width=10)
+Posy_entry.place(x=xbot+200,y=80)
+
+RotHor=StringVar()
+Posy_entry = tkinter.Entry(root,textvariable=RotHor)
+Posy_entry.config(width=10)
+Posy_entry.place(x=xbot+200,y=130)
+
+#Labels
+label1 = tkinter.Label(root, text="x veces")
+label1.place(x=xbot+155, y=180)
+
+label2 = tkinter.Label(root, text="x veces")
+label2.place(x=xbot+155, y=230)
+
+label3 = tkinter.Label(root, text="x")
+label3.place(x=xbot+170, y=270)
+
+label4 = tkinter.Label(root, text="y")
+label4.place(x=xbot+170, y=295)
+
+label5 = tkinter.Label(root, text="grados")
+label5.place(x=xbot+155, y=80)
+
+label6 = tkinter.Label(root, text="grados")
+label6.place(x=xbot+155, y=130)
+
+#Comandos para los botones
 def ComandoHorario():
     plt.figure(figsize=(4,4))
     plt.imshow(rotarH(imgIn))
@@ -199,31 +249,44 @@ def ComandoOrig():
     plt.figure(figsize=(4,4))
     plt.imshow(imgIn)
     plt.show()
+    
 def ComandoPosicion():
     plt.figure(figsize=(4,4))
     plt.imshow(cambiarpos(imgIn,int(Posx_entry.get()),int(Posy_entry.get())))
     plt.show()
-
-boton1 = Button(root, text="Rotar Antihorario", command=ComandoAnHorario)
+    
+def ComandoTransponer():
+    plt.figure(figsize=(4,4))
+    plt.imshow(Transponer(imgIn,imgIn,50,50))
+    plt.show()
+    
+#Botones pantalla principal
+boton1 = Button(root, text="Rotar Antihorario", width=20, height=2, command=ComandoAnHorario)
 boton1.pack()
-boton1.place(x=30,y=20)
+boton1.place(x=xbot,y=70)
 
-boton2 = Button(root, text="Rotar Horario", command=ComandoHorario)
+boton2 = Button(root, text="Rotar Horario", width=20, height=2, command=ComandoHorario)
 boton2.pack()
-boton2.place(x=220,y=20)
+boton2.place(x=xbot,y=120)
 
-boton3 = Button(root, text="Disminuir tamaño", command=ComandoReducir)
+boton3 = Button(root, text="Disminuir tamaño", width=20, height=2, command=ComandoReducir)
 boton3.pack()
-boton3.place(x=30,y=100)
+boton3.place(x=xbot,y=220)
 
-boton4 = Button(root, text="Aumentar tamaño", command=ComandoAumentar)
+boton4 = Button(root, text="Aumentar tamaño", width=20, height=2, command=ComandoAumentar)
 boton4.pack()
-boton4.place(x=220,y=100)
+boton4.place(x=xbot,y=170)
 
-boton5 = Button(root, text="Original", command=ComandoOrig)
+boton5 = Button(root, text="Original",width=20, height=2, command=ComandoOrig)
 boton5.pack()
-boton5.place(x=130,y=60)
-boton6 = Button(root, text="desplazar", command=ComandoPosicion)
+boton5.place(x=xbot,y=20)
+
+boton6 = Button(root, text="desplazar", width=20, height=2, command=ComandoPosicion)
 boton6.pack()
-boton6.place(x=150,y=100)
+boton6.place(x=xbot,y=270)
+
+boton7 = Button(root, text="sobreponer", width=20, height=2, command=ComandoTransponer)
+boton7.pack()
+boton7.place(x=xbot,y=320)
+
 root,mainloop()
