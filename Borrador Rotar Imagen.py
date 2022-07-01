@@ -104,7 +104,7 @@ def disminuirDimensiones(Matriz, aumentoD):
     aumentada = disminuirColumnas(aumentada, aumentoD)
     return aumentada
 
-def rotarGrados(Matriz, grados):
+def rotarGradosAH(Matriz, grados):
 
     if (grados == 90):
         rotada = rotarAH(Matriz)
@@ -150,28 +150,78 @@ def rotarGrados(Matriz, grados):
                 rotada[nuevaFila, nuevaColumna, capa] = Matriz[fila, columna, capa]
     return rotada
 
+def rotarGradosH(Matriz, grados):
+
+    if (grados == 90):
+        rotada = rotarH(Matriz)
+        return rotada
+
+    elif (grados == 180):
+        rotada = rotarT(Matriz)
+        return rotada
+    
+    elif (grados == 270):
+        rotada = rotarAH(Matriz)
+        return rotada
+
+    elif (grados > 270):
+        Matriz = rotarAH(Matriz)
+        grados = grados - 270
+
+    elif (grados > 180):
+        Matriz = rotarT(Matriz)
+        grados = grados - 180
+
+    elif (grados > 90):
+        Matriz = rotarH(Matriz)
+        grados = grados - 90
+
+    
+    if (grados > 45):
+        angulo = (90 - grados) * (np.pi / 180)
+        Matriz = rotarH(Matriz)
+    else:
+        angulo = grados * (np.pi / 180)
+    f, c, p = Matriz.shape
+    rotada = np.zeros((int(f + c*np.tan( angulo)), int(c + f*np.tan(angulo)), p), int)
+    for capa in range(0,p):
+        for fila in range(0,f):
+            for columna in range(0,c):
+                if (grados <= 45):
+                    nuevaFila = int(fila + columna*np.tan(angulo))
+                    nuevaColumna = int(columna + (f - fila)*np.tan(angulo))
+                else:
+                    nuevaFila = int(fila + (c-columna)*np.tan(angulo))
+                    nuevaColumna = int(columna + fila*np.tan(angulo))
+                rotada[nuevaFila, nuevaColumna, capa] = Matriz[fila, columna, capa]
+    return rotada
+
+#plt.figure(figsize=(4,4))
+#plt.imshow(rotarAH(recorte))
+#plt.show()
+
+#plt.figure(figsize=(4,4))
+#plt.imshow(rotarH(recorte))
+#plt.show()
+
+#plt.figure(figsize=(4,4))
+#plt.imshow(rotarT(recorte))
+#plt.show()
+
+#plt.figure(figsize=(4,4))
+#plt.imshow(aumentarDimensiones(recorte,5))
+#plt.show()
+
+#plt.figure(figsize=(4,4))
+#plt.imshow(disminuirDimensiones(recorte,2))
+#plt.show()
+
 plt.figure(figsize=(4,4))
-plt.imshow(rotarAH(recorte))
+plt.imshow(rotarGradosAH(recorte,160))
 plt.show()
 
 plt.figure(figsize=(4,4))
-plt.imshow(rotarH(recorte))
-plt.show()
-
-plt.figure(figsize=(4,4))
-plt.imshow(rotarT(recorte))
-plt.show()
-
-plt.figure(figsize=(4,4))
-plt.imshow(aumentarDimensiones(recorte,5))
-plt.show()
-
-plt.figure(figsize=(4,4))
-plt.imshow(disminuirDimensiones(recorte,2))
-plt.show()
-
-plt.figure(figsize=(4,4))
-plt.imshow(rotarGrados(recorte,89))
+plt.imshow(rotarGradosH(recorte,160))
 plt.show()
 
 

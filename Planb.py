@@ -114,7 +114,7 @@ def cambiarpos(Matriz, posx,posy):
             aumentada[fila+posy,columna+posx,:]=Matriz[fila,columna,:]
     return aumentada
 
-def rotarGrados(Matriz, grados):
+def rotarGradosAH(Matriz, grados):
 
     if (grados == 90):
         rotada = rotarAH(Matriz)
@@ -160,6 +160,52 @@ def rotarGrados(Matriz, grados):
                 rotada[nuevaFila, nuevaColumna, capa] = Matriz[fila, columna, capa]
     return rotada
 
+def rotarGradosH(Matriz, grados):
+
+    if (grados == 90):
+        rotada = rotarH(Matriz)
+        return rotada
+
+    elif (grados == 180):
+        rotada = rotarT(Matriz)
+        return rotada
+    
+    elif (grados == 270):
+        rotada = rotarAH(Matriz)
+        return rotada
+
+    elif (grados > 270):
+        Matriz = rotarAH(Matriz)
+        grados = grados - 270
+
+    elif (grados > 180):
+        Matriz = rotarT(Matriz)
+        grados = grados - 180
+
+    elif (grados > 90):
+        Matriz = rotarH(Matriz)
+        grados = grados - 90
+
+    
+    if (grados > 45):
+        angulo = (90 - grados) * (np.pi / 180)
+        Matriz = rotarH(Matriz)
+    else:
+        angulo = grados * (np.pi / 180)
+    f, c, p = Matriz.shape
+    rotada = np.zeros((int(f + c*np.tan( angulo)), int(c + f*np.tan(angulo)), p), int)
+    for capa in range(0,p):
+        for fila in range(0,f):
+            for columna in range(0,c):
+                if (grados <= 45):
+                    nuevaFila = int(fila + columna*np.tan(angulo))
+                    nuevaColumna = int(columna + (f - fila)*np.tan(angulo))
+                else:
+                    nuevaFila = int(fila + (c-columna)*np.tan(angulo))
+                    nuevaColumna = int(columna + fila*np.tan(angulo))
+                rotada[nuevaFila, nuevaColumna, capa] = Matriz[fila, columna, capa]
+    return rotada
+
 def Transponer(Matriz1, Matriz2,posx,posy):
     f1, c1, p1 = Matriz1.shape
     f2, c2, p2 = Matriz2.shape 
@@ -196,14 +242,14 @@ Posy_entry.config(width=10)
 Posy_entry.place(x=xbot+200,y=295)
 
 RotAnt=StringVar()
-Posy_entry = tkinter.Entry(root,textvariable=RotAnt)
-Posy_entry.config(width=10)
-Posy_entry.place(x=xbot+200,y=80)
+GradAH_entry = tkinter.Entry(root,textvariable=RotAnt)
+GradAH_entry.config(width=10)
+GradAH_entry.place(x=xbot+200,y=80)
 
 RotHor=StringVar()
-Posy_entry = tkinter.Entry(root,textvariable=RotHor)
-Posy_entry.config(width=10)
-Posy_entry.place(x=xbot+200,y=130)
+GradH_entry = tkinter.Entry(root,textvariable=RotHor)
+GradH_entry.config(width=10)
+GradH_entry.place(x=xbot+200,y=130)
 
 #Labels
 label1 = tkinter.Label(root, text="x veces")
@@ -225,14 +271,14 @@ label6 = tkinter.Label(root, text="grados")
 label6.place(x=xbot+155, y=130)
 
 #Comandos para los botones
-def ComandoHorario():
-    plt.figure(figsize=(4,4))
-    plt.imshow(rotarH(imgIn))
-    plt.show()
-    
 def ComandoAnHorario():
     plt.figure(figsize=(4,4))
-    plt.imshow(rotarAH(imgIn))
+    plt.imshow(rotarGradosAH(imgIn,int(GradAH_entry.get())))
+    plt.show()
+
+def ComandoHorario():
+    plt.figure(figsize=(4,4))
+    plt.imshow(rotarGradosH(imgIn,int(GradH_entry.get())))
     plt.show()
     
 def ComandoAumentar():
