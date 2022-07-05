@@ -1,4 +1,5 @@
 from cProfile import label
+from tabnanny import check
 from tkinter import *
 from PIL import Image, ImageTk
 import numpy as np
@@ -8,7 +9,7 @@ import tkinter
 
 root = Tk()
 root.title("Imagenes Algebra")
-root.geometry("300x390")
+root.geometry("300x450")
 xbot = 20
 
 archivo = '1.jpg'
@@ -219,7 +220,28 @@ def Transponer(Matriz1, Matriz2,posx,posy):
         for columna in range(0,c2):
             aumentada[fila+posx,columna+posy,:]=Matriz2[fila,columna,:]    
     return aumentada
-
+def RGB(Matriz1,R,G,B):
+    aumentada = Matriz1.copy()
+    fa ,ca ,pa = aumentada.shape
+    print(pa)
+    v1=5
+    v2=5
+    if(R):
+        v1=1
+        v2=2
+    elif(G):
+        v1=0
+        v2=2
+    elif(B):
+        v1=0
+        v2=1
+    for i in range (fa):
+        for j in range (ca):
+            for k in range (pa):
+                if(k==v1 or k==v2):
+                    aumentada[i,j,k]=0
+    return aumentada
+  
 #Entrys para el programa
 Aument=StringVar()
 Aument_entry = tkinter.Entry(root,textvariable=Aument)
@@ -269,6 +291,18 @@ label5.place(x=xbot+155, y=80)
 
 label6 = tkinter.Label(root, text="grados")
 label6.place(x=xbot+155, y=130)
+#Checkbox
+boolR=BooleanVar()
+CheckboxR=tkinter.Checkbutton(root,text="R",variable=boolR)
+CheckboxR.place(x=xbot,y=420)
+
+boolG=tkinter.BooleanVar()
+CheckboxG=tkinter.Checkbutton(root,text="G",variable=boolG)
+CheckboxG.place(x=xbot+50,y=420)
+
+boolB=tkinter.BooleanVar()
+CheckboxB=tkinter.Checkbutton(root,text="B",variable=boolB)
+CheckboxB.place(x=xbot+100,y=420)
 
 #Comandos para los botones
 def ComandoAnHorario():
@@ -305,6 +339,10 @@ def ComandoTransponer():
     plt.figure(figsize=(4,4))
     plt.imshow(Transponer(imgIn,imgIn,50,50))
     plt.show()
+def ComandoRGB():
+    plt.figure(figsize=(4,4))
+    plt.imshow(RGB(imgIn,boolR.get(),boolG.get(),boolB.get()))
+    plt.show()
     
 #Botones pantalla principal
 boton1 = Button(root, text="Rotar Antihorario", width=20, height=2, command=ComandoAnHorario)
@@ -335,4 +373,7 @@ boton7 = Button(root, text="sobreponer", width=20, height=2, command=ComandoTran
 boton7.pack()
 boton7.place(x=xbot,y=320)
 
+boton8 = Button(root, text="RGB", width=20, height=2, command=ComandoRGB)
+boton8.pack()
+boton8.place(x=xbot,y=370)
 root,mainloop()
