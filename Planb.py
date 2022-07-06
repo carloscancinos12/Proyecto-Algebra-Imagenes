@@ -9,7 +9,7 @@ import tkinter
 
 root = Tk()
 root.title("Imagenes Algebra")
-root.geometry("300x450")
+root.geometry("300x520")
 xbot = 20
 
 archivo = '1.jpg'
@@ -252,6 +252,16 @@ GradH_entry = tkinter.Entry(root,textvariable=RotHor)
 GradH_entry.config(width=10)
 GradH_entry.place(x=xbot+200,y=130)
 
+PosxRGB=StringVar()
+PosxRGB_entry = tkinter.Entry(root,textvariable=PosxRGB)
+PosxRGB_entry.config(width=10)
+PosxRGB_entry.place(x=xbot+200,y=450)
+
+PosyRGB=StringVar()
+PosyRGB_entry = tkinter.Entry(root,textvariable=PosyRGB)
+PosyRGB_entry.config(width=10)
+PosyRGB_entry.place(x=xbot+200,y=475)
+
 #Labels
 label1 = tkinter.Label(root, text="x veces")
 label1.place(x=xbot+155, y=180)
@@ -270,6 +280,12 @@ label5.place(x=xbot+155, y=80)
 
 label6 = tkinter.Label(root, text="grados")
 label6.place(x=xbot+155, y=130)
+
+label3 = tkinter.Label(root, text="x")
+label3.place(x=xbot+170, y=450)
+
+label4 = tkinter.Label(root, text="y")
+label4.place(x=xbot+170, y=475)
 
 #Checkbox
 boolR=BooleanVar()
@@ -325,6 +341,9 @@ def ComandoRGB():
     plt.imshow(RGB(imgIn,boolR.get(),boolG.get(),boolB.get()))
     plt.show()
     
+def ComandoRGB_Recor():
+    None
+    
 #Botones pantalla principal
 boton1 = Button(root, text="Rotar Antihorario", width=20, height=2, command=ComandoAnHorario)
 boton1.pack()
@@ -357,4 +376,9 @@ boton7.place(x=xbot,y=320)
 boton8 = Button(root, text="RGB", width=20, height=2, command=ComandoRGB)
 boton8.pack()
 boton8.place(x=xbot,y=370)
+
+boton9 = Button(root, text="RGB recortado", width=20, height=2, command=ComandoRGB_Recor)
+boton9.pack()
+boton9.place(x=xbot,y=450)
+
 root,mainloop()
