@@ -221,12 +221,12 @@ def RGB(Matriz1, R, G, B):
                     aumentada[i,j,k] = 0        
     return aumentada
 
-def RGB_rec(Matriz1, R, G, B, x, y):
+def RGB_rec(Matriz1, R, G, B, x, y, tam):
     aumentada = Matriz1.copy()
     fa ,ca ,pa = aumentada.shape
     print(pa)
-    for i in range (int(x), int(x+100)):
-        for j in range (int(y), int(y+100)):
+    for i in range (int(x), int(x+tam)):
+        for j in range (int(y), int(y+tam)):
             for k in range (pa):
                 if(R == False and k == 0):
                     aumentada[i,j,k] = 0
@@ -276,6 +276,11 @@ PosyRGB=StringVar()
 PosyRGB_entry = tkinter.Entry(root,textvariable=PosyRGB)
 PosyRGB_entry.config(width=10)
 PosyRGB_entry.place(x=xbot+200,y=475)
+
+Tam=StringVar()
+Tam_entry = tkinter.Entry(root,textvariable=Tam)
+Tam_entry.config(width=10)
+Tam_entry.place(x=xbot+200,y=500)
 
 #Labels
 label1 = tkinter.Label(root, text="x veces")
@@ -358,7 +363,7 @@ def ComandoRGB():
     
 def ComandoRGB_Recor():
     plt.figure(figsize=(4,4))
-    plt.imshow(RGB_rec(imgIn,boolR.get(),boolG.get(),boolB.get(), int(PosxRGB_entry.get()), int(PosyRGB_entry.get())))
+    plt.imshow(RGB_rec(imgIn,boolR.get(),boolG.get(),boolB.get(), int(PosxRGB_entry.get()), int(PosyRGB_entry.get()), int(Tam_entry.get())))
     plt.show()
     
 #Botones pantalla principal
