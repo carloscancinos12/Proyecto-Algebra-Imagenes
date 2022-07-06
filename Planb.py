@@ -221,6 +221,21 @@ def RGB(Matriz1, R, G, B):
                     aumentada[i,j,k] = 0        
     return aumentada
 
+def RGB_rec(Matriz1, R, G, B, x, y):
+    aumentada = Matriz1.copy()
+    fa ,ca ,pa = aumentada.shape
+    print(pa)
+    for i in range (int(x), int(x+100)):
+        for j in range (int(y), int(y+100)):
+            for k in range (pa):
+                if(R == False and k == 0):
+                    aumentada[i,j,k] = 0
+                if(G == False and k == 1):
+                    aumentada[i,j,k] = 0
+                if(B == False and k == 2):
+                    aumentada[i,j,k] = 0        
+    return aumentada
+
 #Entrys para el programa
 Aument=StringVar()
 Aument_entry = tkinter.Entry(root,textvariable=Aument)
@@ -342,7 +357,9 @@ def ComandoRGB():
     plt.show()
     
 def ComandoRGB_Recor():
-    None
+    plt.figure(figsize=(4,4))
+    plt.imshow(RGB_rec(imgIn,boolR.get(),boolG.get(),boolB.get(), int(PosxRGB_entry.get()), int(PosyRGB_entry.get())))
+    plt.show()
     
 #Botones pantalla principal
 boton1 = Button(root, text="Rotar Antihorario", width=20, height=2, command=ComandoAnHorario)
