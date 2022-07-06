@@ -116,32 +116,24 @@ def cambiarpos(Matriz, posx,posy):
     return aumentada
 
 def rotarGradosAH(Matriz, grados):
-
     if (grados == 90):
         rotada = rotarAH(Matriz)
         return rotada
-
     elif (grados == 180):
         rotada = rotarT(Matriz)
-        return rotada
-    
+        return rotada 
     elif (grados == 270):
         rotada = rotarH(Matriz)
         return rotada
-
     elif (grados > 270):
         Matriz = rotarH(Matriz)
         grados = grados - 270
-
     elif (grados > 180):
         Matriz = rotarT(Matriz)
         grados = grados - 180
-
     elif (grados > 90):
         Matriz = rotarAH(Matriz)
         grados = grados - 90
-
-    
     if (grados > 45):
         angulo = (90 - grados) * (np.pi / 180)
         Matriz = rotarAH(Matriz)
@@ -166,28 +158,21 @@ def rotarGradosH(Matriz, grados):
     if (grados == 90):
         rotada = rotarH(Matriz)
         return rotada
-
     elif (grados == 180):
         rotada = rotarT(Matriz)
         return rotada
-    
     elif (grados == 270):
         rotada = rotarAH(Matriz)
         return rotada
-
     elif (grados > 270):
         Matriz = rotarAH(Matriz)
         grados = grados - 270
-
     elif (grados > 180):
         Matriz = rotarT(Matriz)
         grados = grados - 180
-
     elif (grados > 90):
         Matriz = rotarH(Matriz)
         grados = grados - 90
-
-    
     if (grados > 45):
         angulo = (90 - grados) * (np.pi / 180)
         Matriz = rotarH(Matriz)
@@ -220,28 +205,22 @@ def Transponer(Matriz1, Matriz2,posx,posy):
         for columna in range(0,c2):
             aumentada[fila+posx,columna+posy,:]=Matriz2[fila,columna,:]    
     return aumentada
-def RGB(Matriz1,R,G,B):
+
+def RGB(Matriz1, R, G, B):
     aumentada = Matriz1.copy()
     fa ,ca ,pa = aumentada.shape
     print(pa)
-    v1=5
-    v2=5
-    if(R):
-        v1=1
-        v2=2
-    elif(G):
-        v1=0
-        v2=2
-    elif(B):
-        v1=0
-        v2=1
     for i in range (fa):
         for j in range (ca):
             for k in range (pa):
-                if(k==v1 or k==v2):
-                    aumentada[i,j,k]=0
+                if(R == False and k == 0):
+                    aumentada[i,j,k] = 0
+                if(G == False and k == 1):
+                    aumentada[i,j,k] = 0
+                if(B == False and k == 2):
+                    aumentada[i,j,k] = 0        
     return aumentada
-  
+
 #Entrys para el programa
 Aument=StringVar()
 Aument_entry = tkinter.Entry(root,textvariable=Aument)
@@ -291,6 +270,7 @@ label5.place(x=xbot+155, y=80)
 
 label6 = tkinter.Label(root, text="grados")
 label6.place(x=xbot+155, y=130)
+
 #Checkbox
 boolR=BooleanVar()
 CheckboxR=tkinter.Checkbutton(root,text="R",variable=boolR)
@@ -339,6 +319,7 @@ def ComandoTransponer():
     plt.figure(figsize=(4,4))
     plt.imshow(Transponer(imgIn,imgIn,50,50))
     plt.show()
+    
 def ComandoRGB():
     plt.figure(figsize=(4,4))
     plt.imshow(RGB(imgIn,boolR.get(),boolG.get(),boolB.get()))
